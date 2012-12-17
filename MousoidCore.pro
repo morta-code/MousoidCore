@@ -22,6 +22,18 @@ HEADERS += mousoidcore.hpp\
     mousoid_constants.hpp \
     commandemitter.hpp
 
+linux-g++ | linux-g++-64 | linux-g++-32 {
+    LIBS += -lX11 \
+            -lXtst
+    SOURCES += commandemitter_x11.cpp
+    HEADERS += commandemitter_x11.hpp
+}
+windows {
+    LIBS += -lUser32
+    SOURCES += commandemitter_win.cpp
+    HEADERS += commandemitter_win.hpp
+}
+
 symbian {
     MMP_RULES += EXPORTUNFROZEN
     TARGET.UID3 = 0xE179D7D2
@@ -42,3 +54,7 @@ unix:!symbian {
 }
 
 VERSION = 1.0.0
+
+OTHER_FILES += \
+    README.md \
+    LICENSE.md
