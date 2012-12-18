@@ -1,5 +1,6 @@
 #include "mousoidcore.hpp"
 #include "ethernet.hpp"
+#include "commandemitter.hpp"
 
 MousoidCore* MousoidCore::instance = 0;
 
@@ -44,14 +45,17 @@ void MousoidCore::create(QString &name)
 {
     instance = new MousoidCore();
     Ethernet::create(name, 0, instance);
-    /// @todo connect(Ethernet::self(), SIGNAL(commandArrived(QByteArray)),
     /// @todo Bluetooth::create
+    /// @todo connect(Bluetooth::self(), SIGNAL(commandArrived(QByteArray)),
+    CommandEmitter::create(instance);
+    connect(Ethernet::self(), SIGNAL(commandArrived(QByteArray&)), CommandEmitter::self(), SLOT(executeCommand(QByteArray&)));
 }
 
 void MousoidCore::destroy()
 {
     Ethernet::destroy();
     /// @todo Bluetooth::destroy
+    CommandEmitter::destroy();
     instance->deleteLater();
 }
 

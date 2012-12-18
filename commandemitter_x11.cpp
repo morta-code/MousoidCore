@@ -670,3 +670,10 @@ void NativeCommandEmitter::sendNativeScroll(int direction, int delta, double acc
     }
 }
 
+void NativeCommandEmitter::sendNativeMouseMotion(int dir, int d)
+{
+    /// @todo
+    int x, y;
+    XTestFakeRelativeMotionEvent(display, x, y, 0);
+}
+

@@ -16,11 +16,19 @@ class CommandEmitter : public QObject
 {
     Q_OBJECT
 public:
-    explicit CommandEmitter(QObject *parent = 0);
+    static void create(QObject *parent = 0);
+    static CommandEmitter* self() {return instance;}
+    static void destroy();
     
 signals:
     
 public slots:
+    void executeCommand(QByteArray& command);
+
+private:
+    explicit CommandEmitter(QObject *parent = 0);
+
+    CommandEmitter *instance;
     
 };
 

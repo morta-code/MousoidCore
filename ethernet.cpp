@@ -14,7 +14,7 @@ void Ethernet::create(QString &name, uchar connectionLimitations, QObject *paren
 
 void Ethernet::destroy()
 {
-    delete instance;
+    instance->deleteLater();
 }
 
 void Ethernet::listen()
