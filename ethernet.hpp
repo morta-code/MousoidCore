@@ -20,6 +20,7 @@ public:
     static void deleteFromBlocked(QHostAddress &address);
 
     static void setLimitations(uchar limitations);
+    static void setName(QString &name);
 
 signals:
     void commandArrived(QByteArray&);

@@ -14,13 +14,15 @@ DEFINES += MOUSOIDCORE_LIBRARY
 
 SOURCES += mousoidcore.cpp \
     ethernet.cpp \
-    commandemitter.cpp
+    commandemitter.cpp \
+    bluetooth.cpp
 
 HEADERS += mousoidcore.hpp\
         MousoidCore_global.hpp \
     ethernet.hpp \
     mousoid_constants.hpp \
-    commandemitter.hpp
+    commandemitter.hpp \
+    bluetooth.hpp
 
 linux-g++ | linux-g++-64 | linux-g++-32 {
     LIBS += -lX11 \

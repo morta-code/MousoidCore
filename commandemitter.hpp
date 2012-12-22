@@ -17,7 +17,7 @@ class CommandEmitter : public QObject
     Q_OBJECT
 public:
     static void create(QObject *parent = 0);
-    static CommandEmitter* self() {return instance;}
+    static CommandEmitter* self();
     static void destroy();
     
 signals:
@@ -28,7 +28,7 @@ public slots:
 private:
     explicit CommandEmitter(QObject *parent = 0);
 
-    CommandEmitter *instance;
+    static CommandEmitter *instance;
     
 };
 

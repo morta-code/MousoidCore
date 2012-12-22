@@ -18,7 +18,7 @@ public:
     void sendNativeKeyModifiers(Qt::KeyboardModifiers modifiers, bool down);
     void sendNativeButton(Qt::MouseButton button, bool down);
     void sendNativeScroll(int direction, int delta, double acceleration);
-    void sendNativeMouseMotion(int dir, int d);
+    void sendNativeMouseMotion(int x, int y);
 
 private:
     Display* display;

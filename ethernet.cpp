@@ -1,5 +1,6 @@
 #include "ethernet.hpp"
 #include "mousoid_constants.hpp"
+#include <QHostInfo>
 
 // static field:
 Ethernet* Ethernet::instance = 0;
@@ -14,6 +15,7 @@ void Ethernet::create(QString &name, uchar connectionLimitations, QObject *paren
 
 void Ethernet::destroy()
 {
+    instance->socket->close();
     instance->deleteLater();
 }
 
@@ -60,8 +62,13 @@ void Ethernet::setLimitations(uchar limitations)
     if(limitations == Mousoid::ONLY_ONE_ALLOWED && !instance->allowedSet.isEmpty()){
         QHostAddress e = instance->allowedSet.toList().first();
         instance->allowedSet.clear();
-        instance-> allowedSet.insert(e);
+        instance->allowedSet.insert(e);
     }
+}
+
+void Ethernet::setName(QString &name)
+{
+    instance->localName = (name == "") ? QHostInfo::localHostName() : name;
 }
 
 
@@ -69,7 +76,6 @@ void Ethernet::setLimitations(uchar limitations)
 
 void Ethernet::readPendingDatagram()
 {
-    qDebug("Reading");
     while(socket->hasPendingDatagrams()){
         QByteArray datagram(socket->pendingDatagramSize(), 0);
         QHostAddress sender;
@@ -117,7 +123,7 @@ void Ethernet::readPendingDatagram()
 
 Ethernet::Ethernet(QString &name, uchar connectionLimitations, QObject *parent) : QObject(parent)
 {
-    localName = name;
+    localName = (name == "") ? QHostInfo::localHostName() : name;
     limitations = connectionLimitations;
     socket = new QUdpSocket(this);
     connect(socket, SIGNAL(readyRead()), this, SLOT(readPendingDatagram()));

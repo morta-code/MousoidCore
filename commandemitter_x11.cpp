@@ -573,7 +573,7 @@ NativeCommandEmitter::NativeCommandEmitter(QObject *parent) :
     display = XOpenDisplay( NULL );
 }
 
-NativeCommandEmitter::~QGlobalFakeKeyPrivate()
+NativeCommandEmitter::~NativeCommandEmitter()
 {
     XCloseDisplay(display);
 }
@@ -670,10 +670,8 @@ void NativeCommandEmitter::sendNativeScroll(int direction, int delta, double acc
     }
 }
 
-void NativeCommandEmitter::sendNativeMouseMotion(int dir, int d)
+void NativeCommandEmitter::sendNativeMouseMotion(int x, int y)
 {
-    /// @todo
-    int x, y;
     XTestFakeRelativeMotionEvent(display, x, y, 0);
 }
 

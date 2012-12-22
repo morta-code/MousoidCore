@@ -7,6 +7,11 @@ CommandEmitter::CommandEmitter(QObject *parent) :
 {
 }
 
+CommandEmitter* CommandEmitter::self()
+{
+    return instance;
+}
+
 void CommandEmitter::executeCommand(QByteArray &command)
 {
 
