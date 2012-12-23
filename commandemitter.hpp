@@ -1,6 +1,6 @@
-#pragma once
+#ifndef COMMANDEMITTER_HPP
+#define COMMANDEMITTER_HPP
 
-#include <QObject>
 #include <Qt/qkeysequence.h>
 #include <QDebug>
 
@@ -11,36 +11,7 @@
 #include "commandemitter_win.hpp"
 #endif
 
-//class CommandEmitter : public QObject
-//{
-//    Q_OBJECT
-//public:
-//    inline static void create(QObject *parent = 0){
-//        instance = new CommandEmitter(parent);
-//    }
-
-//    inline static CommandEmitter* self(){
-//        return instance;
-//    }
-
-//    inline static void destroy(){
-//        instance->deleteLater();
-//    }
-    
-
-//    void (* forNewClient)(QString&);
-
-//public slots:
-//    void executeCommand(QByteArray& command);
-
-//private:
-//    explicit CommandEmitter(QObject *parent = 0) :QObject(parent){}
-
-//    static CommandEmitter *instance;
-//};
-
-
-namespace NOOP_CommandEmitter {
+namespace CommandEmitter {
 
 void (* newClientCallback)(QString&);
 void executeCommand(QByteArray& command){
@@ -53,3 +24,4 @@ void executeCommand(QByteArray& command){
 
 }
 
+#endif // COMMANDEMITTER_HPP

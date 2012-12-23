@@ -9,15 +9,13 @@ class MOUSOIDCORESHARED_EXPORT MousoidCore
 {
 public:
     static void create();
-    inline static MousoidCore* self() {return instance;}
     static void destroy();
 
     static void changeName(QString &name);
     static void funcForNewClient(void (* callback)(QString &n));
 
-
-    void changeServerState(uchar state);
-    void stopServer();
+    static void changeLimitations(uchar limitations);
+    static void changeServerState(uchar state);
 
 private:
     MousoidCore();
