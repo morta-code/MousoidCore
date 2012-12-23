@@ -7,7 +7,10 @@ class Ethernet : public QObject
 {
     Q_OBJECT
 public:
-    static void create(QString &name, uchar connectionLimitations = 0, QObject *parent = 0);
+    inline static void create(uchar connectionLimitations = 0, QObject *parent = 0){
+        instance = new Ethernet(connectionLimitations, parent);
+    }
+
     static void destroy();
     static Ethernet* self() {return instance;}
 
@@ -21,6 +24,7 @@ public:
 
     static void setLimitations(uchar limitations);
     static void setName(QString &name);
+    static void setCommandExecuterFunc(void (* callback)(QByteArray &datagram));
 
 signals:
     void commandArrived(QByteArray&);
@@ -29,7 +33,7 @@ private slots:
     void readPendingDatagram();
 
 private:
-    Ethernet(QString &name, uchar connectionLimitations = 0, QObject *parent = 0);
+    Ethernet(uchar connectionLimitations = 0, QObject *parent = 0);
     ~Ethernet();
 
     static Ethernet* instance;
@@ -39,6 +43,7 @@ private:
     QSet<QHostAddress> allowedSet;
     QSet<QHostAddress> blockedSet;
     QString localName;
+    void (* commandArrivedCallback)(QByteArray &datagram);
 };
 
 #endif // ETHERNET_HPP

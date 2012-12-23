@@ -8,11 +8,6 @@ Ethernet* Ethernet::instance = 0;
 
 // static members:
 
-void Ethernet::create(QString &name, uchar connectionLimitations, QObject *parent)
-{
-    instance = new Ethernet(name, connectionLimitations, parent);
-}
-
 void Ethernet::destroy()
 {
     instance->socket->close();
@@ -21,6 +16,7 @@ void Ethernet::destroy()
 
 void Ethernet::listen()
 {
+    qDebug() << "Listening";
     if(instance->socket->isOpen()) return;
     instance->socket->bind(Mousoid::PORT, QUdpSocket::ShareAddress);
     instance->socket->open(QUdpSocket::ReadWrite);
@@ -71,6 +67,11 @@ void Ethernet::setName(QString &name)
     instance->localName = (name == "") ? QHostInfo::localHostName() : name;
 }
 
+void Ethernet::setCommandExecuterFunc(void (*callback)(QByteArray &))
+{
+    instance->commandArrivedCallback = callback;
+}
+
 
 // non-static members:
 
@@ -116,14 +117,16 @@ void Ethernet::readPendingDatagram()
         }
 
         qDebug("emit command");
-        emit commandArrived(datagram);
+//        emit commandArrived(datagram);
+        commandArrivedCallback(datagram);
         qDebug("command emitted");
     }
 }
 
-Ethernet::Ethernet(QString &name, uchar connectionLimitations, QObject *parent) : QObject(parent)
+Ethernet::Ethernet(uchar connectionLimitations, QObject *parent) : QObject(parent)
 {
-    localName = (name == "") ? QHostInfo::localHostName() : name;
+    qDebug() << "Ethernet created";
+    localName = QHostInfo::localHostName();
     limitations = connectionLimitations;
     socket = new QUdpSocket(this);
     connect(socket, SIGNAL(readyRead()), this, SLOT(readPendingDatagram()));

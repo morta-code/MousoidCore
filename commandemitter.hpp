@@ -1,5 +1,4 @@
-#ifndef COMMANDEMITTER_HPP
-#define COMMANDEMITTER_HPP
+#pragma once
 
 #include <QObject>
 #include <Qt/qkeysequence.h>
@@ -12,24 +11,45 @@
 #include "commandemitter_win.hpp"
 #endif
 
-class CommandEmitter : public QObject
-{
-    Q_OBJECT
-public:
-    static void create(QObject *parent = 0);
-    static CommandEmitter* self();
-    static void destroy();
-    
-signals:
-    
-public slots:
-    void executeCommand(QByteArray& command);
+//class CommandEmitter : public QObject
+//{
+//    Q_OBJECT
+//public:
+//    inline static void create(QObject *parent = 0){
+//        instance = new CommandEmitter(parent);
+//    }
 
-private:
-    explicit CommandEmitter(QObject *parent = 0);
+//    inline static CommandEmitter* self(){
+//        return instance;
+//    }
 
-    static CommandEmitter *instance;
+//    inline static void destroy(){
+//        instance->deleteLater();
+//    }
     
-};
 
-#endif // COMMANDEMITTER_HPP
+//    void (* forNewClient)(QString&);
+
+//public slots:
+//    void executeCommand(QByteArray& command);
+
+//private:
+//    explicit CommandEmitter(QObject *parent = 0) :QObject(parent){}
+
+//    static CommandEmitter *instance;
+//};
+
+
+namespace NOOP_CommandEmitter {
+
+void (* newClientCallback)(QString&);
+void executeCommand(QByteArray& command){
+    /// @todo parancsfeldolgozás
+    // test mouse motion
+    command.clear();
+    NativeCommandEmitter e;
+    e.sendNativeMouseMotion(10, 10);
+}
+
+}
+

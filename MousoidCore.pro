@@ -14,7 +14,6 @@ DEFINES += MOUSOIDCORE_LIBRARY
 
 SOURCES += mousoidcore.cpp \
     ethernet.cpp \
-    commandemitter.cpp \
     bluetooth.cpp
 
 HEADERS += mousoidcore.hpp\

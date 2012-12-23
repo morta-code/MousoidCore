@@ -567,8 +567,7 @@ static const unsigned int KeyTbl[] = {
     0,                          0
 };
 
-NativeCommandEmitter::NativeCommandEmitter(QObject *parent) :
-    QObject(parent)
+NativeCommandEmitter::NativeCommandEmitter()
 {
     display = XOpenDisplay( NULL );
 }

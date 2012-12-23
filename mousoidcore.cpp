@@ -31,6 +31,7 @@ void MousoidCore::changeServerState(uchar state)
         Ethernet::suspend();
         /// @todo Bluetooth::suspend();
     }
+    qDebug() << "MousoidCore changed";
 }
 
 void MousoidCore::stopServer()
@@ -41,21 +42,37 @@ void MousoidCore::stopServer()
 }
 
 
-void MousoidCore::create(QString &name)
+void MousoidCore::create()
 {
     instance = new MousoidCore();
-    Ethernet::create(name, 0, instance);
+    Ethernet::create();
     /// @todo Bluetooth::create
     /// @todo connect(Bluetooth::self(), SIGNAL(commandArrived(QByteArray)),
-    CommandEmitter::create(instance);
-    connect(Ethernet::self(), SIGNAL(commandArrived(QByteArray&)), CommandEmitter::self(), SLOT(executeCommand(QByteArray&)));
+//    CommandEmitter::create();
+//    QObject::connect(Ethernet::self(), SIGNAL(commandArrived(QByteArray&)), CommandEmitter::self(), SLOT(executeCommand(QByteArray&)));
+    Ethernet::setCommandExecuterFunc(NOOP_CommandEmitter::executeCommand);
+    qDebug() << "MousoidCore ok";
 }
 
 void MousoidCore::destroy()
 {
     Ethernet::destroy();
     /// @todo Bluetooth::destroy
-    CommandEmitter::destroy();
-    instance->deleteLater();
+//    CommandEmitter::destroy();
+    delete instance;
+}
+
+void MousoidCore::changeName(QString &name)
+{
+    Ethernet::setName(name);
+}
+
+void MousoidCore::funcForNewClient(void (*callback)(QString &n))
+{
+//    CommandEmitter::self()->forNewClient = callback;
+    NOOP_CommandEmitter::newClientCallback = callback;
+    /// @todo remove
+    QString str("Hello core");
+    callback(str);
 }
 

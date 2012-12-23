@@ -5,17 +5,17 @@
 #include "mousoid_constants.hpp"
 #include <QtCore>
 
-class MOUSOIDCORESHARED_EXPORT MousoidCore : public QObject
+class MOUSOIDCORESHARED_EXPORT MousoidCore
 {
 public:
-    static void create(QString &name);
+    static void create();
     inline static MousoidCore* self() {return instance;}
     static void destroy();
 
-signals:
-    void clientConnected(QString &name);
+    static void changeName(QString &name);
+    static void funcForNewClient(void (* callback)(QString &n));
 
-public slots:
+
     void changeServerState(uchar state);
     void stopServer();
 
