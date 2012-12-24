@@ -2,12 +2,13 @@
 #define ETHERNET_HPP
 
 #include <QtNetwork>
+#include "mousoid_constants.hpp"
 
 class Ethernet : public QObject
 {
     Q_OBJECT
 public:
-    inline static void create(uchar connectionLimitations = 0, QObject *parent = 0){
+    inline static void create(uchar connectionLimitations = Mousoid::NO_LIMITATION, QObject *parent = 0){
         instance = new Ethernet(connectionLimitations, parent);
     }
 

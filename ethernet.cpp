@@ -1,5 +1,4 @@
 #include "ethernet.hpp"
-#include "mousoid_constants.hpp"
 #include <QHostInfo>
 
 // static field:

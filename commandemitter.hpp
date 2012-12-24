@@ -3,6 +3,7 @@
 
 #include <Qt/qkeysequence.h>
 #include <QDebug>
+#include "mousoid_constants.hpp"
 
 #ifdef Q_WS_X11
 #include "commandemitter_x11.hpp"
@@ -17,9 +18,22 @@ void (* newClientCallback)(QString&);
 void executeCommand(QByteArray& command){
     /// @todo parancsfeldolgozás
     // test mouse motion
-    command.clear();
+
     NativeCommandEmitter e;
-    e.sendNativeMouseMotion(10, 10);
+
+    switch (command[1]) {
+    case Mousoid::MOUSEMOVE:
+        e.sendNativeMouseMotion(command[2], command[3]);
+        break;
+    case Mousoid::NAME:
+
+        break;
+    case Mousoid::MOUSEBUTTON:
+
+        break;
+    default:
+        break;
+    }
 }
 
 }
