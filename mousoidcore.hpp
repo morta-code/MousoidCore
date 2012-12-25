@@ -12,7 +12,7 @@ public:
     static void destroy();
 
     static void changeName(QString &name);
-    static void funcForNewClient(void (* callback)(QString &n));
+    static void funcForNewClient(void (* callback)(char* str));
 
     static void changeLimitations(uchar limitations);
     static void changeServerState(uchar state);

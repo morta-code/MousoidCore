@@ -14,7 +14,8 @@
 
 namespace CommandEmitter {
 
-void (* newClientCallback)(QString&);
+char* _temp = 0;
+void (* newClientCallback)(char* str);
 void executeCommand(QByteArray& command){
     /// @todo parancsfeldolgozás
     // test mouse motion
@@ -26,10 +27,13 @@ void executeCommand(QByteArray& command){
         e.sendNativeMouseMotion(command[2], command[3]);
         break;
     case Mousoid::NAME:
-
-        break;
-    case Mousoid::MOUSEBUTTON:
-
+        _temp = new char[command[2]+1];
+        for(uchar i = 0; i < command[2]; ++i){
+            _temp[i] = command[3+i];
+        }
+        _temp[command[2]] = 0;
+        newClientCallback(_temp);
+        delete _temp;
         break;
     default:
         break;

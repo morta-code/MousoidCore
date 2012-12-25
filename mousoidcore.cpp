@@ -55,12 +55,9 @@ void MousoidCore::changeName(QString &name)
     Ethernet::setName(name);
 }
 
-void MousoidCore::funcForNewClient(void (*callback)(QString &n))
+void MousoidCore::funcForNewClient(void (*callback)(char *))
 {
     CommandEmitter::newClientCallback = callback;
-    /// @todo remove, it is just for debug
-    QString str("Hello client");
-    callback(str);
 }
 
 void MousoidCore::changeLimitations(uchar limitations)
