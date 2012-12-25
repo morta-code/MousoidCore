@@ -27,9 +27,6 @@ public:
     static void setName(QString &name);
     static void setCommandExecuterFunc(void (* callback)(QByteArray &datagram));
 
-signals:
-    void commandArrived(QByteArray&);
-
 private slots:
     void readPendingDatagram();
 

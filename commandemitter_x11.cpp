@@ -671,6 +671,6 @@ void NativeCommandEmitter::sendNativeScroll(int direction, int delta, double acc
 
 void NativeCommandEmitter::sendNativeMouseMotion(int x, int y)
 {
-    XTestFakeRelativeMotionEvent(display, x, y, 0);
+    XTestFakeRelativeMotionEvent(display, -x, -y, 0);
 }
 

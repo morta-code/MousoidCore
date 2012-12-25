@@ -115,10 +115,7 @@ void Ethernet::readPendingDatagram()
             continue;
         }
 
-        qDebug("emit command");
-//        emit commandArrived(datagram);
         commandArrivedCallback(datagram);
-        qDebug("command emitted");
     }
 }
 

@@ -122,8 +122,8 @@ namespace Mousoid {
     const char SCROLL_VERTICAL = -5;
     const char SCROLL_HORIZONTAL = -6;
 
-    const char MOUSE_LEFT = 0;
-    const char MOUSE_MIDDLE = 1;
+    const char MOUSE_LEFT = 1;
+    const char MOUSE_MIDDLE = 4;
     const char MOUSE_RIGHT = 2;
 }
 
