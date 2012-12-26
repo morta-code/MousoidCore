@@ -12,6 +12,8 @@ TEMPLATE = lib
 
 DEFINES += MOUSOIDCORE_LIBRARY
 
+QMAKE_CXXFLAGS += "-std=c++11"
+
 SOURCES += mousoidcore.cpp \
     ethernet.cpp \
     bluetooth.cpp

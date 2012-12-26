@@ -1,6 +1,8 @@
 #ifndef COMMANDEMITTER_HPP
 #define COMMANDEMITTER_HPP
 
+#include <chrono>
+#include <thread>
 #include <Qt/qkeysequence.h>
 #include <QDebug>
 #include "mousoid_constants.hpp"
@@ -28,6 +30,7 @@ void executeCommand(QByteArray& command){
     case Mousoid::MOUSEBUTTON:
         if(command[2] == Mousoid::CLICK){
             e.sendNativeButton((Qt::MouseButton)(char)command[3], true);
+            std::this_thread::sleep_for( std::chrono::milliseconds(50) );
             e.sendNativeButton((Qt::MouseButton)(char)command[3], false);
             return;
         }
@@ -37,6 +40,10 @@ void executeCommand(QByteArray& command){
         }
         if (command[2] == Mousoid::RELEASE) {
             e.sendNativeButton((Qt::MouseButton)(char)command[3], false);
+            return;
+        }
+        if (command[2] == Mousoid::SCROLL_VERTICAL) {
+            e.sendNativeScroll(0, command[3], 1.0);
             return;
         }
 
