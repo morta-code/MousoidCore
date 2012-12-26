@@ -30,7 +30,7 @@ void executeCommand(QByteArray& command){
     case Mousoid::MOUSEBUTTON:
         if(command[2] == Mousoid::CLICK){
             e.sendNativeButton((Qt::MouseButton)(char)command[3], true);
-            std::this_thread::sleep_for( std::chrono::milliseconds(50) );
+            std::this_thread::sleep_for( std::chrono::milliseconds(60) );
             e.sendNativeButton((Qt::MouseButton)(char)command[3], false);
             return;
         }
@@ -39,6 +39,17 @@ void executeCommand(QByteArray& command){
             return;
         }
         if (command[2] == Mousoid::RELEASE) {
+            e.sendNativeButton((Qt::MouseButton)(char)command[3], false);
+            return;
+        }
+        if (command[2] == Mousoid::DOUBLE_CLICK) {
+            std::chrono::milliseconds duration(70);
+            e.sendNativeButton((Qt::MouseButton)(char)command[3], true);
+            std::this_thread::sleep_for(duration);
+            e.sendNativeButton((Qt::MouseButton)(char)command[3], false);
+            std::this_thread::sleep_for(duration);
+            e.sendNativeButton((Qt::MouseButton)(char)command[3], true);
+            std::this_thread::sleep_for(duration);
             e.sendNativeButton((Qt::MouseButton)(char)command[3], false);
             return;
         }
