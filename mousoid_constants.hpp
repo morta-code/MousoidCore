@@ -81,38 +81,15 @@ namespace Mousoid {
     const char KEY_F11 = 29;
     const char KEY_F12 = 30;
     const char KEY_BACKSPACE = 31;
-    const char KEY_A = -1;
-    const char KEY_B = -2;
-    const char KEY_C = -3;
-    const char KEY_D = -4;
-    const char KEY_E = -5;
-    const char KEY_F = -6;
-    const char KEY_G = -7;
-    const char KEY_H = -8;
-    const char KEY_I = -9;
-    const char KEY_J = -10;
-    const char KEY_K = -11;
-    const char KEY_L = -12;
-    const char KEY_M = -13;
-    const char KEY_N = -14;
-    const char KEY_O = -15;
-    const char KEY_P = -16;
-    const char KEY_Q = -17;
-    const char KEY_R = -18;
-    const char KEY_S = -19;
-    const char KEY_T = -20;
-    const char KEY_U = -21;
-    const char KEY_V = -22;
-    const char KEY_W = -23;
-    const char KEY_X = -24;
-    const char KEY_Y = -25;
-    const char KEY_Z = -26;
-    const char KEY_DOT = -27;
-    const char KEY_COMMA = -28;
-    const char KEY_SEMICOLON = -29;
-    const char KEY_COLON = -30;
-    const char KEY_DASH = -31;
-    const char KEY_SLASH = -32;
+    const char KEY_MEDIA_PREV = 32;
+    const char KEY_MEDIA_PLAY = 33;
+    const char KEY_MEDIA_NEXT = 34;
+    const char KEY_VOLUME_DOWN = 35;
+    const char KEY_VOLUME_UP = 36;
+    const char KEY_VOLUME_MUTE = 37;
+    const char KEY_MENU = 38;
+
+    const char KEY_CHAR = -1;
 
     /// Mouse codes
     const char CLICK = -1;

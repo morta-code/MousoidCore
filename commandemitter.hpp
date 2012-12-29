@@ -5,6 +5,7 @@
 #include <thread>
 #include <Qt/qkeysequence.h>
 #include <QDebug>
+#include <QString>
 #include "mousoid_constants.hpp"
 
 #ifdef Q_WS_X11
@@ -57,6 +58,36 @@ void executeCommand(QByteArray& command){
             e.sendNativeScroll(0, command[3], 1.0);
             return;
         }
+
+    case Mousoid::KEYCOMMAND:
+    {
+        char mod_num = command[2];
+        char char_num = command[3];
+        for(char i = 0; i < mod_num; ++i){
+            int v;
+            char c[] = {command[7+i*4], command[6+i*4], command[5+i*4], command[4+i*4]};
+            memcpy(&v, c, 4);
+            qDebug() << QString::number(v, 16);
+            e.sendNativeKey((Qt::Key)v, true);
+        }
+//        uchar keys_index = 0;
+//        for(char i = 0; i < char_num; ++i){
+//            if(command[4+mod_num+keys_index] != Mousoid::KEY_CHAR){
+
+//                e.sendNativeKey();
+//            }
+//            else{
+//                e.sendNativeKey();
+//            }
+//        }
+        for(char i = 0; i < mod_num; ++i){
+            int v;
+            char c[] = {command[7+i*4], command[6+i*4], command[5+i*4], command[4+i*4]};
+            memcpy(&v, c, 4);
+            e.sendNativeKey((Qt::Key)v, false);
+        }
+        return;
+    }
 
     case Mousoid::NAME:
         _temp = new char[command[2]+1];
