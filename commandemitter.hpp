@@ -67,23 +67,26 @@ void executeCommand(QByteArray& command){
             int v;
             char c[] = {command[7+i*4], command[6+i*4], command[5+i*4], command[4+i*4]};
             memcpy(&v, c, 4);
-            qDebug() << QString::number(v, 16);
             e.sendNativeKey((Qt::Key)v, true);
         }
-//        uchar keys_index = 0;
-//        for(char i = 0; i < char_num; ++i){
-//            if(command[4+mod_num+keys_index] != Mousoid::KEY_CHAR){
-
-//                e.sendNativeKey();
-//            }
-//            else{
-//                e.sendNativeKey();
-//            }
-//        }
+        for(char i = 0; i < char_num; ++i){
+            short v;
+            short _in = 4+(mod_num*4);
+            char c[] = {command[_in+1+i*2], command[_in+i*2]};
+            memcpy(&v, c, 2);
+            e.sendNativeKey((Qt::Key)v, true);
+        }
         for(char i = 0; i < mod_num; ++i){
             int v;
             char c[] = {command[7+i*4], command[6+i*4], command[5+i*4], command[4+i*4]};
             memcpy(&v, c, 4);
+            e.sendNativeKey((Qt::Key)v, false);
+        }
+        for(char i = 0; i < char_num; ++i){
+            short v;
+            short _in = 4+(mod_num*4);
+            char c[] = {command[_in+1+i*2], command[_in+i*2]};
+            memcpy(&v, c, 2);
             e.sendNativeKey((Qt::Key)v, false);
         }
         return;
