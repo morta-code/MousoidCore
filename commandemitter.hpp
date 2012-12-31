@@ -65,30 +65,60 @@ void executeCommand(QByteArray& command){
         char char_num = command[3];
         for(char i = 0; i < mod_num; ++i){
             int v;
+#if Q_BYTE_ORDER == Q_LITTLE_ENDIAN
             char c[] = {command[7+i*4], command[6+i*4], command[5+i*4], command[4+i*4]};
+#else
+            char c[] = {command[4+i*4], command[5+i*4], command[6+i*4], command[7+i*4]};
+#endif
             memcpy(&v, c, 4);
             e.sendNativeKey((Qt::Key)v, true);
         }
         for(char i = 0; i < char_num; ++i){
             short v;
             short _in = 4+(mod_num*4);
+#if Q_BYTE_ORDER == Q_LITTLE_ENDIAN
             char c[] = {command[_in+1+i*2], command[_in+i*2]};
+#else
+            char c[] = {command[_in+i*2], command[_in+1+i*2]};
+#endif
             memcpy(&v, c, 2);
             e.sendNativeKey((Qt::Key)v, true);
         }
         for(char i = 0; i < mod_num; ++i){
             int v;
+#if Q_BYTE_ORDER == Q_LITTLE_ENDIAN
             char c[] = {command[7+i*4], command[6+i*4], command[5+i*4], command[4+i*4]};
+#else
+            char c[] = {command[4+i*4], command[5+i*4], command[6+i*4], command[7+i*4]};
+#endif
             memcpy(&v, c, 4);
             e.sendNativeKey((Qt::Key)v, false);
         }
         for(char i = 0; i < char_num; ++i){
             short v;
             short _in = 4+(mod_num*4);
+#if Q_BYTE_ORDER == Q_LITTLE_ENDIAN
             char c[] = {command[_in+1+i*2], command[_in+i*2]};
+#else
+            char c[] = {command[_in+i*2], command[_in+1+i*2]};
+#endif
             memcpy(&v, c, 2);
             e.sendNativeKey((Qt::Key)v, false);
         }
+        return;
+    }
+
+    case Mousoid::SYSTEM:
+    {
+        _temp = new char[command[2]+3];
+        for(uchar i = 0; i < command[2]; ++i){
+            _temp[i] = command[3+i];
+        }
+        _temp[command[2]] = ' ';
+        _temp[command[2] + 1] = '&';
+        _temp[command[2] + 2] = 0;
+        system(_temp);
+        delete _temp;
         return;
     }
 

@@ -40,56 +40,13 @@ namespace Mousoid {
 
     const char WHO_ARE_YOU = -128;
     const char KEYCOMMAND = 1;
-    const char KEYPRESS = 2;
-    const char KEYRELEASE = 3;
+    const char SYSTEM = 2;
     const char MOUSEMOVE = 4;
     const char MOUSEBUTTON = 5;
     const char NAME = 8;
 
 
     /// Command value parts
-    /// Keycodes
-    const char KEY_UP = 0;
-    const char KEY_DOWN = 1;
-    const char KEY_LEFT = 2;
-    const char KEY_RIGHT = 3;
-    const char KEY_PGUP = 4;
-    const char KEY_PGDN = 5;
-    const char KEY_SPACE = 6;
-    const char KEY_ESC = 7;
-    const char KEY_ALT = 8;
-    const char KEY_ALTGR = 9;
-    const char KEY_CTRL = 10;
-    const char KEY_SUPER = 11;
-    const char KEY_SHIFT = 12;
-    const char KEY_ENTER = 13;
-    const char KEY_INSERT = 14;
-    const char KEY_DELETE = 15;
-    const char KEY_HOME = 16;
-    const char KEY_END = 17;
-    const char KEY_TAB = 18;
-    const char KEY_F1 = 19;
-    const char KEY_F2 = 20;
-    const char KEY_F3 = 21;
-    const char KEY_F4 = 22;
-    const char KEY_F5 = 23;
-    const char KEY_F6 = 24;
-    const char KEY_F7 = 25;
-    const char KEY_F8 = 26;
-    const char KEY_F9 = 27;
-    const char KEY_F10 = 28;
-    const char KEY_F11 = 29;
-    const char KEY_F12 = 30;
-    const char KEY_BACKSPACE = 31;
-    const char KEY_MEDIA_PREV = 32;
-    const char KEY_MEDIA_PLAY = 33;
-    const char KEY_MEDIA_NEXT = 34;
-    const char KEY_VOLUME_DOWN = 35;
-    const char KEY_VOLUME_UP = 36;
-    const char KEY_VOLUME_MUTE = 37;
-    const char KEY_MENU = 38;
-
-    const char KEY_CHAR = -1;
 
     /// Mouse codes
     const char CLICK = -1;
