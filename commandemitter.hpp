@@ -108,6 +108,7 @@ void executeCommand(QByteArray& command){
         return;
     }
 
+#ifdef Q_OS_LINUX
     case Mousoid::SYSTEM:
     {
         _temp = new char[command[2]+3];
@@ -121,6 +122,7 @@ void executeCommand(QByteArray& command){
         delete _temp;
         return;
     }
+#endif
 
     case Mousoid::NAME:
         _temp = new char[command[2]+1];
