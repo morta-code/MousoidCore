@@ -15,15 +15,13 @@ DEFINES += MOUSOIDCORE_LIBRARY
 QMAKE_CXXFLAGS += "-std=c++11"
 
 SOURCES += mousoidcore.cpp \
-    ethernet.cpp \
-    bluetooth.cpp
+    ethernet.cpp
 
 HEADERS += mousoidcore.hpp\
         MousoidCore_global.hpp \
     ethernet.hpp \
     mousoid_constants.hpp \
-    commandemitter.hpp \
-    bluetooth.hpp
+    commandemitter.hpp
 
 linux-g++ | linux-g++-64 | linux-g++-32 {
     LIBS += -lX11 \

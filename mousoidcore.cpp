@@ -57,7 +57,7 @@ void MousoidCore::changeName(QString &name)
 
 void MousoidCore::funcForNewClient(void (*callback)(char *))
 {
-    CommandEmitter::newClientCallback = callback;
+    Ethernet::self()->newClientCallback = callback;
 }
 
 void MousoidCore::changeLimitations(uchar limitations)

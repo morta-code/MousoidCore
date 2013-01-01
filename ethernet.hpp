@@ -27,6 +27,10 @@ public:
     static void setName(QString &name);
     static void setCommandExecuterFunc(void (* callback)(QByteArray &datagram));
 
+
+    void (* commandArrivedCallback)(QByteArray &datagram);
+    void (* newClientCallback)(char* str);
+
 private slots:
     void readPendingDatagram();
 
@@ -41,7 +45,6 @@ private:
     QSet<QHostAddress> allowedSet;
     QSet<QHostAddress> blockedSet;
     QString localName;
-    void (* commandArrivedCallback)(QByteArray &datagram);
 };
 
 #endif // ETHERNET_HPP

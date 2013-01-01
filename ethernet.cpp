@@ -83,8 +83,28 @@ void Ethernet::readPendingDatagram()
         socket->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
         if(datagram[0] != Mousoid::HEADER){
-             qDebug() << sender.toString() << "BAD datagram arrived";
             continue;
+        }
+
+        if(datagram[1] == Mousoid::WHO_ARE_YOU){
+            QByteArray array;
+            array += Mousoid::HEADER;
+            array += Mousoid::NAME;
+            array += localName.length();
+            array += localName.toAscii();
+            socket->writeDatagram(array, sender, senderPort);
+            continue;
+        }
+        if(datagram[1] == Mousoid::NAME){
+            if(blockedSet.contains(sender))
+                continue;
+            char* _temp = new char[command[2]+1];
+            for(register uchar i = 0; i < command[2]; ++i){
+                _temp[i] = command[3+i];
+            }
+            _temp[command[2]] = 0;
+            qDebug() << _temp << sender.toString();
+            newClientCallback(_temp);
         }
 
         switch (limitations) {
@@ -101,18 +121,6 @@ void Ethernet::readPendingDatagram()
             }
         default:
             break;
-        }
-
-        if(datagram[1] == Mousoid::WHO_ARE_YOU){
-            qDebug() << sender.toString() << "WHO_ARE_YOU arrived";
-            QByteArray array;
-            array += Mousoid::HEADER;
-            array += Mousoid::NAME;
-            array += localName.length();
-            array += localName.toAscii();
-            socket->writeDatagram(array, sender, senderPort);
-            qDebug() << "NAME sent" << (int)array[0] << (int)array[1] << (int)array[2];
-            continue;
         }
 
         commandArrivedCallback(datagram);

@@ -17,8 +17,6 @@
 
 namespace CommandEmitter {
 
-void (* newClientCallback)(char* str);
-
 void executeCommand(QByteArray& command){
     NativeCommandEmitter e;
     char* _temp = 0;
@@ -123,16 +121,6 @@ void executeCommand(QByteArray& command){
         return;
     }
 #endif
-
-    case Mousoid::NAME:
-        _temp = new char[command[2]+1];
-        for(uchar i = 0; i < command[2]; ++i){
-            _temp[i] = command[3+i];
-        }
-        _temp[command[2]] = 0;
-        newClientCallback(_temp);
-        delete _temp;
-        return;
 
     default:
         return;
