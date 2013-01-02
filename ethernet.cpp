@@ -15,7 +15,6 @@ void Ethernet::destroy()
 
 void Ethernet::listen()
 {
-    qDebug() << "Listening";
     if(instance->socket->isOpen()) return;
     instance->socket->bind(Mousoid::PORT, QUdpSocket::ShareAddress);
     instance->socket->open(QUdpSocket::ReadWrite);
@@ -54,11 +53,6 @@ void Ethernet::deleteFromBlocked(QHostAddress &address)
 void Ethernet::setLimitations(uchar limitations)
 {
     instance->limitations = limitations;
-    if(limitations == Mousoid::ONLY_ONE_ALLOWED && !instance->allowedSet.isEmpty()){
-        QHostAddress e = instance->allowedSet.toList().first();
-        instance->allowedSet.clear();
-        instance->allowedSet.insert(e);
-    }
 }
 
 void Ethernet::setName(QString &name)
@@ -87,6 +81,8 @@ void Ethernet::readPendingDatagram()
         }
 
         if(datagram[1] == Mousoid::WHO_ARE_YOU){
+            if(hidden)
+                continue;
             QByteArray array;
             array += Mousoid::HEADER;
             array += Mousoid::NAME;
@@ -98,25 +94,22 @@ void Ethernet::readPendingDatagram()
         if(datagram[1] == Mousoid::NAME){
             if(blockedSet.contains(sender))
                 continue;
-            char* _temp = new char[command[2]+1];
-            for(register uchar i = 0; i < command[2]; ++i){
-                _temp[i] = command[3+i];
+            char* _temp = new char[datagram[2]+1];
+            for(register uchar i = 0; i < datagram[2]; ++i){
+                _temp[i] = datagram[3+i];
             }
-            _temp[command[2]] = 0;
-            qDebug() << _temp << sender.toString();
-            newClientCallback(_temp);
+            _temp[datagram[2]] = 0;
+            newClientCallback(_temp, sender.toString().toAscii().data());
         }
 
         switch (limitations) {
         case Mousoid::ONLY_FROM_SET_ALLOWED:
-        case Mousoid::ONLY_ONE_ALLOWED:
             if(!allowedSet.contains(sender)){
-                qDebug() << sender.toString() << "Datagram arrived not from allowed address";
                 continue;
             }
+            break;
         case Mousoid::ONLY_FROM_SET_BLOCKED:
             if(blockedSet.contains(sender)){
-                qDebug() << sender.toString() << "Datagram arrived from blocked address";
                 continue;
             }
         default:
@@ -129,7 +122,6 @@ void Ethernet::readPendingDatagram()
 
 Ethernet::Ethernet(uchar connectionLimitations, QObject *parent) : QObject(parent)
 {
-    qDebug() << "Ethernet created";
     localName = QHostInfo::localHostName();
     limitations = connectionLimitations;
     socket = new QUdpSocket(this);

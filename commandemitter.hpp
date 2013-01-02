@@ -4,7 +4,6 @@
 #include <chrono>
 #include <thread>
 #include <Qt/qkeysequence.h>
-#include <QDebug>
 #include <QString>
 #include "mousoid_constants.hpp"
 
@@ -61,7 +60,7 @@ void executeCommand(QByteArray& command){
     {
         char mod_num = command[2];
         char char_num = command[3];
-        for(char i = 0; i < mod_num; ++i){
+        for(register char i = 0; i < mod_num; ++i){
             int v;
 #if Q_BYTE_ORDER == Q_LITTLE_ENDIAN
             char c[] = {command[7+i*4], command[6+i*4], command[5+i*4], command[4+i*4]};
@@ -71,7 +70,7 @@ void executeCommand(QByteArray& command){
             memcpy(&v, c, 4);
             e.sendNativeKey((Qt::Key)v, true);
         }
-        for(char i = 0; i < char_num; ++i){
+        for(register char i = 0; i < char_num; ++i){
             short v;
             short _in = 4+(mod_num*4);
 #if Q_BYTE_ORDER == Q_LITTLE_ENDIAN
@@ -82,7 +81,7 @@ void executeCommand(QByteArray& command){
             memcpy(&v, c, 2);
             e.sendNativeKey((Qt::Key)v, true);
         }
-        for(char i = 0; i < mod_num; ++i){
+        for(register char i = 0; i < mod_num; ++i){
             int v;
 #if Q_BYTE_ORDER == Q_LITTLE_ENDIAN
             char c[] = {command[7+i*4], command[6+i*4], command[5+i*4], command[4+i*4]};
@@ -92,7 +91,7 @@ void executeCommand(QByteArray& command){
             memcpy(&v, c, 4);
             e.sendNativeKey((Qt::Key)v, false);
         }
-        for(char i = 0; i < char_num; ++i){
+        for(register char i = 0; i < char_num; ++i){
             short v;
             short _in = 4+(mod_num*4);
 #if Q_BYTE_ORDER == Q_LITTLE_ENDIAN
@@ -110,7 +109,7 @@ void executeCommand(QByteArray& command){
     case Mousoid::SYSTEM:
     {
         _temp = new char[command[2]+3];
-        for(uchar i = 0; i < command[2]; ++i){
+        for(register uchar i = 0; i < command[2]; ++i){
             _temp[i] = command[3+i];
         }
         _temp[command[2]] = ' ';

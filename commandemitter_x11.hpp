@@ -21,7 +21,6 @@ public:
 
 private:
     Display* display;
-
     quint32 nativeKeycode(Qt::Key key) const;
 };
 

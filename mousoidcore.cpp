@@ -1,52 +1,56 @@
 #include "mousoidcore.hpp"
 #include "ethernet.hpp"
 #include "commandemitter.hpp"
+#include <QtNetwork>
 
 MousoidCore* MousoidCore::instance = 0;
 
-MousoidCore::MousoidCore()
-{
-    c = 0;
-}
+
+// Static functions
 
 void MousoidCore::changeServerState(uchar state)
 {
     instance->c = state;
     if(state & Mousoid::SERVER_ENABLED){
-        if(state & Mousoid::WIRELESS_ON)
-            Ethernet::listen();
-        else
-            Ethernet::suspend();
-        if(state & Mousoid::BLUETOOTH_ON) {}
-            /// @todo Bluetooth::listen();
-        else {}
-            /// @todo Bluetooth::suspend();
-        if(state & Mousoid::MORE_ALLOWED){
-            Ethernet::setLimitations(Mousoid::NO_LIMITATION);
-            /// @todo other limitations
-        }else{
-            Ethernet::setLimitations(Mousoid::ONLY_ONE_ALLOWED);
-        }
-    }else{
+        Ethernet::listen();
+    } else {
         Ethernet::suspend();
-        /// @todo Bluetooth::suspend();
     }
-    qDebug() << "MousoidCore changed";
+    Ethernet::self()->hidden = (state & Mousoid::HIDDEN_MODE);
+
+}
+
+void MousoidCore::addToBlocked(QString &address)
+{
+    QHostAddress addr(address);
+    Ethernet::addToBlocked(addr);
+    Ethernet::deleteFromAllowed(addr);
+}
+
+void MousoidCore::addToAllowed(QString &address)
+{
+    QHostAddress addr(address);
+    Ethernet::addToAllowed(addr);
+    Ethernet::deleteFromBlocked(addr);
+}
+
+void MousoidCore::removeFromSets(QString &address)
+{
+    QHostAddress addr(address);
+    Ethernet::deleteFromAllowed(addr);
+    Ethernet::deleteFromBlocked(addr);
 }
 
 void MousoidCore::create()
 {
     instance = new MousoidCore();
     Ethernet::create();
-    /// @todo Bluetooth::create
     Ethernet::setCommandExecuterFunc(CommandEmitter::executeCommand);
-    qDebug() << "MousoidCore ok";
 }
 
 void MousoidCore::destroy()
 {
     Ethernet::destroy();
-    /// @todo Bluetooth::destroy
     delete instance;
 }
 
@@ -55,7 +59,7 @@ void MousoidCore::changeName(QString &name)
     Ethernet::setName(name);
 }
 
-void MousoidCore::funcForNewClient(void (*callback)(char *))
+void MousoidCore::funcForNewClient(void (*callback)(char *,char *))
 {
     Ethernet::self()->newClientCallback = callback;
 }

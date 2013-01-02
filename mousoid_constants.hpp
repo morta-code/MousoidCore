@@ -24,6 +24,7 @@ namespace Mousoid {
     const uchar WIRELESS_ON = 0x1;
     const uchar BLUETOOTH_ON = 0x2;
     const uchar MORE_ALLOWED = 0x4;
+    const uchar HIDDEN_MODE = 0x8;
     const uchar SERVER_ENABLED = 0x80;
 
     /// Datagram limitations

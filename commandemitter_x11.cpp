@@ -228,8 +228,6 @@ static const unsigned int KeyTbl[] = {
     XK_Clear,                   Qt::Key_Delete,
     XK_Pause,                   Qt::Key_Pause,
     XK_Print,                   Qt::Key_Print,
-    0x1005FF60,                 Qt::Key_SysReq,         // hardcoded Sun SysReq
-    0x1007ff00,                 Qt::Key_SysReq,         // hardcoded X386 SysReq
 
     // cursor movement
 
@@ -331,78 +329,6 @@ static const unsigned int KeyTbl[] = {
     XK_Mode_switch,		Qt::Key_Mode_switch,
     XK_script_switch,		Qt::Key_Mode_switch,
 
-    // Japanese keyboard support
-    XK_Kanji,			Qt::Key_Kanji,
-    XK_Muhenkan,		Qt::Key_Muhenkan,
-    //XK_Henkan_Mode,		Qt::Key_Henkan_Mode,
-    XK_Henkan_Mode,		Qt::Key_Henkan,
-    XK_Henkan,			Qt::Key_Henkan,
-    XK_Romaji,			Qt::Key_Romaji,
-    XK_Hiragana,		Qt::Key_Hiragana,
-    XK_Katakana,		Qt::Key_Katakana,
-    XK_Hiragana_Katakana,	Qt::Key_Hiragana_Katakana,
-    XK_Zenkaku,			Qt::Key_Zenkaku,
-    XK_Hankaku,			Qt::Key_Hankaku,
-    XK_Zenkaku_Hankaku,		Qt::Key_Zenkaku_Hankaku,
-    XK_Touroku,			Qt::Key_Touroku,
-    XK_Massyo,			Qt::Key_Massyo,
-    XK_Kana_Lock,		Qt::Key_Kana_Lock,
-    XK_Kana_Shift,		Qt::Key_Kana_Shift,
-    XK_Eisu_Shift,		Qt::Key_Eisu_Shift,
-    XK_Eisu_toggle,		Qt::Key_Eisu_toggle,
-    //XK_Kanji_Bangou,		Qt::Key_Kanji_Bangou,
-    //XK_Zen_Koho,		Qt::Key_Zen_Koho,
-    //XK_Mae_Koho,		Qt::Key_Mae_Koho,
-    XK_Kanji_Bangou,		Qt::Key_Codeinput,
-    XK_Zen_Koho,		Qt::Key_MultipleCandidate,
-    XK_Mae_Koho,		Qt::Key_PreviousCandidate,
-
-#ifdef XK_KOREAN
-    // Korean keyboard support
-    XK_Hangul,			Qt::Key_Hangul,
-    XK_Hangul_Start,		Qt::Key_Hangul_Start,
-    XK_Hangul_End,		Qt::Key_Hangul_End,
-    XK_Hangul_Hanja,		Qt::Key_Hangul_Hanja,
-    XK_Hangul_Jamo,		Qt::Key_Hangul_Jamo,
-    XK_Hangul_Romaja,		Qt::Key_Hangul_Romaja,
-    //XK_Hangul_Codeinput,	Qt::Key_Hangul_Codeinput,
-    XK_Hangul_Codeinput,	Qt::Key_Codeinput,
-    XK_Hangul_Jeonja,		Qt::Key_Hangul_Jeonja,
-    XK_Hangul_Banja,		Qt::Key_Hangul_Banja,
-    XK_Hangul_PreHanja,		Qt::Key_Hangul_PreHanja,
-    XK_Hangul_PostHanja,	Qt::Key_Hangul_PostHanja,
-    //XK_Hangul_SingleCandidate,Qt::Key_Hangul_SingleCandidate,
-    //XK_Hangul_MultipleCandidate,Qt::Key_Hangul_MultipleCandidate,
-    //XK_Hangul_PreviousCandidate,Qt::Key_Hangul_PreviousCandidate,
-    XK_Hangul_SingleCandidate,	Qt::Key_SingleCandidate,
-    XK_Hangul_MultipleCandidate,Qt::Key_MultipleCandidate,
-    XK_Hangul_PreviousCandidate,Qt::Key_PreviousCandidate,
-    XK_Hangul_Special,		Qt::Key_Hangul_Special,
-    //XK_Hangul_switch,		Qt::Key_Hangul_switch,
-    XK_Hangul_switch,		Qt::Key_Mode_switch,
-#endif  // XK_KOREAN
-
-    // dead keys
-    XK_dead_grave,              Qt::Key_Dead_Grave,
-    XK_dead_acute,              Qt::Key_Dead_Acute,
-    XK_dead_circumflex,         Qt::Key_Dead_Circumflex,
-    XK_dead_tilde,              Qt::Key_Dead_Tilde,
-    XK_dead_macron,             Qt::Key_Dead_Macron,
-    XK_dead_breve,              Qt::Key_Dead_Breve,
-    XK_dead_abovedot,           Qt::Key_Dead_Abovedot,
-    XK_dead_diaeresis,          Qt::Key_Dead_Diaeresis,
-    XK_dead_abovering,          Qt::Key_Dead_Abovering,
-    XK_dead_doubleacute,        Qt::Key_Dead_Doubleacute,
-    XK_dead_caron,              Qt::Key_Dead_Caron,
-    XK_dead_cedilla,            Qt::Key_Dead_Cedilla,
-    XK_dead_ogonek,             Qt::Key_Dead_Ogonek,
-    XK_dead_iota,               Qt::Key_Dead_Iota,
-    XK_dead_voiced_sound,       Qt::Key_Dead_Voiced_Sound,
-    XK_dead_semivoiced_sound,   Qt::Key_Dead_Semivoiced_Sound,
-    XK_dead_belowdot,           Qt::Key_Dead_Belowdot,
-    XK_dead_hook,               Qt::Key_Dead_Hook,
-    XK_dead_horn,               Qt::Key_Dead_Horn,
-
     // Special keys from X.org - This include multimedia keys,
         // wireless/bluetooth/uwb keys, special launcher keys, etc.
     XF86XK_Back,                Qt::Key_Back,
@@ -423,11 +349,6 @@ static const unsigned int KeyTbl[] = {
     XF86XK_AudioNext,           Qt::Key_MediaNext,
     XF86XK_AudioRecord,         Qt::Key_MediaRecord,
     XF86XK_Mail,                Qt::Key_LaunchMail,
-    XF86XK_MyComputer,          Qt::Key_Launch0,  // ### Qt 5: remap properly
-    XF86XK_Calculator,          Qt::Key_Launch1,
-    XF86XK_Memo,                Qt::Key_Memo,
-    XF86XK_ToDoList,            Qt::Key_ToDoList,
-    XF86XK_Calendar,            Qt::Key_Calendar,
     XF86XK_PowerDown,           Qt::Key_PowerDown,
     XF86XK_ContrastAdjust,      Qt::Key_ContrastAdjust,
     XF86XK_Standby,             Qt::Key_Standby,
@@ -448,13 +369,10 @@ static const unsigned int KeyTbl[] = {
     XF86XK_AddFavorite,         Qt::Key_AddFavorite,
     XF86XK_HotLinks,            Qt::Key_HotLinks,
     XF86XK_BrightnessAdjust,    Qt::Key_BrightnessAdjust,
-    XF86XK_Finance,             Qt::Key_Finance,
-    XF86XK_Community,           Qt::Key_Community,
     XF86XK_AudioRewind,         Qt::Key_AudioRewind,
     XF86XK_BackForward,         Qt::Key_BackForward,
     XF86XK_ApplicationLeft,     Qt::Key_ApplicationLeft,
     XF86XK_ApplicationRight,    Qt::Key_ApplicationRight,
-    XF86XK_Book,                Qt::Key_Book,
     XF86XK_CD,                  Qt::Key_CD,
     XF86XK_Calculater,          Qt::Key_Calculator,
     XF86XK_Clear,               Qt::Key_Clear,
@@ -463,21 +381,15 @@ static const unsigned int KeyTbl[] = {
     XF86XK_Copy,                Qt::Key_Copy,
     XF86XK_Cut,                 Qt::Key_Cut,
     XF86XK_Display,             Qt::Key_Display,
-    XF86XK_DOS,                 Qt::Key_DOS,
-    XF86XK_Documents,           Qt::Key_Documents,
-    XF86XK_Excel,               Qt::Key_Excel,
     XF86XK_Explorer,            Qt::Key_Explorer,
     XF86XK_Game,                Qt::Key_Game,
     XF86XK_Go,                  Qt::Key_Go,
     XF86XK_iTouch,              Qt::Key_iTouch,
     XF86XK_LogOff,              Qt::Key_LogOff,
-    XF86XK_Market,              Qt::Key_Market,
-    XF86XK_Meeting,             Qt::Key_Meeting,
     XF86XK_MenuKB,              Qt::Key_MenuKB,
     XF86XK_MenuPB,              Qt::Key_MenuPB,
     XF86XK_MySites,             Qt::Key_MySites,
     XF86XK_News,                Qt::Key_News,
-    XF86XK_OfficeHome,          Qt::Key_OfficeHome,
     XF86XK_Option,              Qt::Key_Option,
     XF86XK_Paste,               Qt::Key_Paste,
     XF86XK_Phone,               Qt::Key_Phone,
@@ -496,12 +408,9 @@ static const unsigned int KeyTbl[] = {
     XF86XK_Tools,               Qt::Key_Tools,
     XF86XK_Travel,              Qt::Key_Travel,
     XF86XK_Video,               Qt::Key_Video,
-    XF86XK_Word,                Qt::Key_Word,
     XF86XK_Xfer,                Qt::Key_Xfer,
     XF86XK_ZoomIn,              Qt::Key_ZoomIn,
     XF86XK_ZoomOut,             Qt::Key_ZoomOut,
-    XF86XK_Away,                Qt::Key_Away,
-    XF86XK_Messenger,           Qt::Key_Messenger,
     XF86XK_WebCam,              Qt::Key_WebCam,
     XF86XK_MailForward,         Qt::Key_MailForward,
     XF86XK_Pictures,            Qt::Key_Pictures,
@@ -541,7 +450,7 @@ static const unsigned int KeyTbl[] = {
     XF86XK_LaunchB,             Qt::Key_LaunchD,
     XF86XK_LaunchC,             Qt::Key_LaunchE,
     XF86XK_LaunchD,             Qt::Key_LaunchF,
-#if QT_VERSION >= 0x047000
+#if QT_VERSION >= 0x040700
     XF86XK_LaunchE,             Qt::Key_LaunchG,
     XF86XK_LaunchF,             Qt::Key_LaunchH,
 #endif
@@ -581,13 +490,10 @@ quint32 NativeCommandEmitter::nativeKeycode(Qt::Key key) const
 {
     KeySym keySym = -1;
 
-    if ((key >= 0x20) && (key <= 0xFF)) //ASCII characters
-    {
+    if ((key >= 0x20) && (key <= 0xFF)){
         keySym = key;
-    }
-    else
-    {
-        int i = 1;                                // any other keys
+    } else {
+        int i = 1;
         while (KeyTbl[i]) {
             if (key == KeyTbl[i]) {
                 keySym = (KeySym)KeyTbl[i-1];
@@ -608,25 +514,6 @@ void NativeCommandEmitter::sendNativeKey(Qt::Key key, bool down)
     XTestFakeKeyEvent( display, keyCode, down, 0);
 }
 
-void NativeCommandEmitter::sendNativeKeyModifiers(Qt::KeyboardModifiers modifiers, bool down)
-{
-    KeyCode shiftKeycode = XKeysymToKeycode(display, XK_Shift_L);
-    KeyCode controlKeycode = XKeysymToKeycode(display, XK_Control_L);
-    KeyCode altKeycode = XKeysymToKeycode(display, XK_Alt_L);
-    KeyCode metaKeycode = XKeysymToKeycode(display, XK_Meta_L);
-    KeyCode keypadKeycode = XKeysymToKeycode(display, XK_Num_Lock);
-
-    if (modifiers & Qt::ShiftModifier)
-        XTestFakeKeyEvent( display, shiftKeycode, down, 0);
-    if (modifiers & Qt::ControlModifier)
-        XTestFakeKeyEvent( display, controlKeycode, down, 0);
-    if (modifiers & Qt::AltModifier)
-        XTestFakeKeyEvent( display, altKeycode, down, 0);
-    if (modifiers & Qt::MetaModifier)
-        XTestFakeKeyEvent( display, metaKeycode, down, 0);
-    if (modifiers & Qt::KeypadModifier)
-        XTestFakeKeyEvent( display, keypadKeycode, down, 0);
-}
 
 void NativeCommandEmitter::sendNativeButton(Qt::MouseButton button, bool down)
 {
@@ -634,11 +521,7 @@ void NativeCommandEmitter::sendNativeButton(Qt::MouseButton button, bool down)
 
     if (button == Qt::LeftButton)
         nativeButton = 1;
-#if QT_VERSION <= 0x047000
-    else if (button == Qt::MidButton)
-#else
     else if (button == Qt::MiddleButton)
-#endif
         nativeButton = 2;
     else if (button == Qt::RightButton)
         nativeButton = 3;
@@ -662,7 +545,7 @@ void NativeCommandEmitter::sendNativeScroll(int direction, int delta, double acc
             button = 5;
     }
 
-    for (int i = 0; i < qAbs(delta * acceleration); i++)
+    for (register int i = 0; i < qAbs(delta * acceleration); i++)
     {
         XTestFakeButtonEvent(display, button, true, 0);
         XTestFakeButtonEvent(display, button, false, 0);

@@ -22,14 +22,15 @@ public:
     static void addToAllowed(QHostAddress &address);
     static void deleteFromAllowed(QHostAddress &address);
     static void deleteFromBlocked(QHostAddress &address);
-
     static void setLimitations(uchar limitations);
     static void setName(QString &name);
     static void setCommandExecuterFunc(void (* callback)(QByteArray &datagram));
 
+    // Public fields and function pointers:
 
     void (* commandArrivedCallback)(QByteArray &datagram);
-    void (* newClientCallback)(char* str);
+    void (* newClientCallback)(char* name, char* address);
+    bool hidden;
 
 private slots:
     void readPendingDatagram();
@@ -39,6 +40,8 @@ private:
     ~Ethernet();
 
     static Ethernet* instance;
+
+    // Fields:
 
     uchar limitations;
     QUdpSocket *socket;

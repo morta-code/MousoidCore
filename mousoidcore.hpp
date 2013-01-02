@@ -12,13 +12,17 @@ public:
     static void destroy();
 
     static void changeName(QString &name);
-    static void funcForNewClient(void (* callback)(char* str));
+    static void funcForNewClient(void (* callback)(char* str, char* addr));
 
     static void changeLimitations(uchar limitations);
     static void changeServerState(uchar state);
 
+    static void addToBlocked(QString &address);
+    static void addToAllowed(QString &address);
+    static void setOneAllowed(QString &address);
+    static void removeFromSets(QString &address);
 private:
-    MousoidCore();
+    MousoidCore() {}
 
     static MousoidCore *instance;
     uchar c;
