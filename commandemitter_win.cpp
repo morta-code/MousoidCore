@@ -1,5 +1,9 @@
 #include "commandemitter_win.hpp"
-
+#define WINVER 0x0601
+#define _WIN32_WINNT 0x0601
+#include <Windows.h>
+#include <QDebug>21a
+#include <Qt/qkeysequence.h>
 
 // Key translation ---------------------------------------------------------------------[ start ] --
 // Meaning of values:
@@ -287,7 +291,7 @@ quint32 NativeCommandEmitter::nativeKeycode(Qt::Key key) const
 {
     quint32 keySym = 0;
     quint32 i = 0;
-
+    qDebug() << (quint32)key;
     while (i < sizeof(KeyTbl)) {
         if (key == KeyTbl[i]) {
             keySym = i;
@@ -300,6 +304,35 @@ quint32 NativeCommandEmitter::nativeKeycode(Qt::Key key) const
         return (quint32)key;
     else
         return keySym;
+}
+
+quint32 NativeCommandEmitter::nativeModifiers(Qt::KeyboardModifiers modifiers) const
+{
+    // MOD_ALT, MOD_CONTROL, (MOD_KEYUP), MOD_SHIFT, MOD_WIN
+    quint32 native = 0;
+    if (modifiers & Qt::ShiftModifier)
+        native |= MOD_SHIFT;
+    if (modifiers & Qt::ControlModifier)
+        native |= MOD_CONTROL;
+    if (modifiers & Qt::AltModifier)
+        native |= MOD_ALT;
+    if (modifiers & Qt::MetaModifier)
+        native |= MOD_WIN;
+    return native;
+}
+
+void NativeCommandEmitter::sendNativeKeyModifiers(Qt::KeyboardModifiers modifiers, bool down)
+{
+    if (modifiers & Qt::ShiftModifier)
+        sendNativeKey(Qt::Key_Shift, down);
+    if (modifiers & Qt::ControlModifier)
+        sendNativeKey(Qt::Key_Control, down);
+    if (modifiers & Qt::AltModifier)
+        sendNativeKey(Qt::Key_Alt, down);
+    if (modifiers & Qt::MetaModifier)
+        sendNativeKey(Qt::Key_Meta, down);
+    if (modifiers & Qt::KeypadModifier)
+        sendNativeKey(Qt::Key_NumLock, down);
 }
 
 void NativeCommandEmitter::sendNativeKey(Qt::Key key, bool down)
@@ -352,31 +385,21 @@ void NativeCommandEmitter::sendNativeScroll(int direction, int delta, double acc
 {
     INPUT Input={0};
     Input.type = INPUT_MOUSE;
-
-    int sign;
-
-    if (direction == 2) {
-        Input.mi.dwFlags = MOUSEEVENTF_WHEEL;
-        sign = -1;
-    }
-//    else {
-//        Input.mi.dwFlags = MOUSEEVENTF_HWHEEL
-//        sign = 1;
-//    }
-
-    Input.mi.mouseData = (delta * acceleration)*WHEEL_DELTA*sign;
-
+    Input.mi.dx = 0;
+    Input.mi.dy = 0;
+    Input.mi.dwFlags = MOUSEEVENTF_WHEEL;
+    Input.mi.time = 0;
+    Input.mi.dwExtraInfo = 0;
+    Input.mi.mouseData = WHEEL_DELTA*delta*acceleration*(-1);
     ::SendInput(1,&Input,sizeof(INPUT));
 }
 
 void NativeCommandEmitter::sendNativeMouseMotion(int x, int y)
 {
-    INPUT Input={0};
-    Input.type = INPUT_MOUSE;
-    Input.mi.mouseData=0;
-    Input.mi.dx =  x*(65536/GetSystemMetrics(SM_CXSCREEN));
-    Input.mi.dy =  y*(65536/GetSystemMetrics(SM_CYSCREEN));
-    Input.mi.dwFlags = MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE;
-    ::SendInput(1,&Input,sizeof(Input));
+    POINT p;
+    GetCursorPos(&p);
+    p.x -= x;
+    p.y -= y;
+    SetCursorPos(p.x,p.y);
 }
 

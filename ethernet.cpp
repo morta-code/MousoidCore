@@ -1,5 +1,7 @@
 #include "ethernet.hpp"
+#include "commandemitter.hpp"
 #include <QHostInfo>
+#include <QDebug>
 
 // static field:
 Ethernet* Ethernet::instance = 0;
@@ -60,11 +62,6 @@ void Ethernet::setName(QString &name)
     instance->localName = (name == "") ? QHostInfo::localHostName() : name;
 }
 
-void Ethernet::setCommandExecuterFunc(void (*callback)(QByteArray &))
-{
-    instance->commandArrivedCallback = callback;
-}
-
 
 // non-static members:
 
@@ -81,6 +78,7 @@ void Ethernet::readPendingDatagram()
         }
 
         if(datagram[1] == Mousoid::WHO_ARE_YOU){
+            qDebug() << "Who are you arrived!" << datagram[1] << sender.toString() << hidden;
             if(hidden)
                 continue;
             QByteArray array;
@@ -92,6 +90,7 @@ void Ethernet::readPendingDatagram()
             continue;
         }
         if(datagram[1] == Mousoid::NAME){
+            qDebug() << "Name arrived!" << datagram[1] << sender.toString();
             if(blockedSet.contains(sender))
                 continue;
             char* _temp = new char[datagram[2]+1];
@@ -115,8 +114,7 @@ void Ethernet::readPendingDatagram()
         default:
             break;
         }
-
-        commandArrivedCallback(datagram);
+        CommandEmitter::executeCommand(datagram);
     }
 }
 

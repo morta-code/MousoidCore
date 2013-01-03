@@ -3,6 +3,7 @@
 
 #include <Qt/qkeysequence.h>
 #include <QString>
+
 #include "mousoid_constants.hpp"
 
 #ifdef Q_WS_X11
@@ -13,7 +14,8 @@
 #endif
 #ifdef Q_WS_WIN
 #include "commandemitter_win.hpp"
-#define M_SLEEP(_T) ::Sleep(_T)
+#include <Windows.h>
+#define M_SLEEP(_T) Sleep(_T)
 #endif
 
 namespace CommandEmitter {

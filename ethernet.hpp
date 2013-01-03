@@ -27,8 +27,6 @@ public:
     static void setCommandExecuterFunc(void (* callback)(QByteArray &datagram));
 
     // Public fields and function pointers:
-
-    void (* commandArrivedCallback)(QByteArray &datagram);
     void (* newClientCallback)(char* name, char* address);
     bool hidden;
 

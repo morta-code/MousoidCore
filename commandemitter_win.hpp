@@ -2,8 +2,7 @@
 #define COMMANDEMITTER_WIN_HPP
 
 #include <Qt>
-#define WINVER 0x0601
-#include <Windows.h>
+
 class NativeCommandEmitter
 {
 public:
@@ -17,7 +16,7 @@ public:
 
 private:
     quint32 nativeKeycode(Qt::Key key) const;
-
+    quint32 nativeModifiers(Qt::KeyboardModifiers modifiers) const;
 };
 
 #endif // COMMANDEMITTER_WIN_HPP

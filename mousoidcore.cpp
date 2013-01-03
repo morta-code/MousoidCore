@@ -1,6 +1,5 @@
 #include "mousoidcore.hpp"
 #include "ethernet.hpp"
-#include "commandemitter.hpp"
 #include <QtNetwork>
 
 MousoidCore* MousoidCore::instance = 0;
@@ -45,7 +44,6 @@ void MousoidCore::create()
 {
     instance = new MousoidCore();
     Ethernet::create();
-    Ethernet::setCommandExecuterFunc(CommandEmitter::executeCommand);
 }
 
 void MousoidCore::destroy()

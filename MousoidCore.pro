@@ -12,7 +12,8 @@ TEMPLATE = lib
 
 DEFINES += MOUSOIDCORE_LIBRARY
 
-QMAKE_CXXFLAGS += "-std=c++11"
+QMAKE_CXXFLAGS_RELEASE += -O4
+QMAKE_CFLAGS_RELEASE += -O4
 
 SOURCES += mousoidcore.cpp \
     ethernet.cpp
@@ -28,11 +29,18 @@ linux-g++ | linux-g++-64 | linux-g++-32 {
             -lXtst
     SOURCES += commandemitter_x11.cpp
     HEADERS += commandemitter_x11.hpp
+    QMAKE_CXXFLAGS += "-std=c++11"
 }
 windows {
     LIBS += -lUser32
     SOURCES += commandemitter_win.cpp
     HEADERS += commandemitter_win.hpp
+
+}
+
+CONFIG(debug, debug|release) {
+     mac: TARGET = $$join(TARGET,,,_debug)
+     win32: TARGET = $$join(TARGET,,,d)
 }
 
 symbian {
