@@ -282,16 +282,8 @@ static const uint KeyTbl[] = { // Keyboard mapping table
     Qt::NoModifier,                                             // Fall-back to raw Key_*
 };*/
 
-QGlobalFakeKeyPrivate::QGlobalFakeKeyPrivate(QObject *parent) :
-    QObject(parent)
-{
-}
 
-QGlobalFakeKeyPrivate::~QGlobalFakeKeyPrivate()
-{
-}
-
-quint32 QGlobalFakeKeyPrivate::nativeKeycode(Qt::Key key) const
+quint32 NativeCommandEmitter::nativeKeycode(Qt::Key key) const
 {
     quint32 keySym = 0;
     quint32 i = 0;
@@ -310,25 +302,7 @@ quint32 QGlobalFakeKeyPrivate::nativeKeycode(Qt::Key key) const
         return keySym;
 }
 
-//quint32 QGlobalFakeKeyPrivate::nativeModifiers(Qt::KeyboardModifiers modifiers) const
-//{
-    // MOD_ALT, MOD_CONTROL, (MOD_KEYUP), MOD_SHIFT, MOD_WIN
-//    quint32 native = 0;
-   /* if (modifiers & Qt::ShiftModifier)
-        native |= MOD_SHIFT;
-    if (modifiers & Qt::ControlModifier)
-        native |= MOD_CONTROL;
-    if (modifiers & Qt::AltModifier)
-        native |= MOD_ALT;
-    if (modifiers & Qt::MetaModifier)
-        native |= MOD_WIN;*/
-    // TODO: resolve these?
-    //if (modifiers & Qt::KeypadModifier)
-    //if (modifiers & Qt::GroupSwitchModifier)
-//    return native;
-//}
-
-void QGlobalFakeKeyPrivate::sendNativeKey(Qt::Key key, bool down)
+void NativeCommandEmitter::sendNativeKey(Qt::Key key, bool down)
 {
 
     quint32 keyCode = nativeKeycode(key);
@@ -347,21 +321,7 @@ void QGlobalFakeKeyPrivate::sendNativeKey(Qt::Key key, bool down)
     iEvents = SendInput(1, &InputData, sizeof(INPUT));
 }
 
-void QGlobalFakeKeyPrivate::sendNativeKeyModifiers(Qt::KeyboardModifiers modifiers, bool down)
-{
-    if (modifiers & Qt::ShiftModifier)
-        sendNativeKey(Qt::Key_Shift, down);
-    if (modifiers & Qt::ControlModifier)
-        sendNativeKey(Qt::Key_Control, down);
-    if (modifiers & Qt::AltModifier)
-        sendNativeKey(Qt::Key_Alt, down);
-    if (modifiers & Qt::MetaModifier)
-        sendNativeKey(Qt::Key_Meta, down);
-    if (modifiers & Qt::KeypadModifier)
-        sendNativeKey(Qt::Key_NumLock, down);
-}
-
-void QGlobalFakeKeyPrivate::sendNativeButton(Qt::MouseButton button, bool down)
+void NativeCommandEmitter::sendNativeButton(Qt::MouseButton button, bool down)
 {
     INPUT    Input={0};
     Input.type = INPUT_MOUSE;
@@ -388,9 +348,9 @@ void QGlobalFakeKeyPrivate::sendNativeButton(Qt::MouseButton button, bool down)
     ::SendInput(1,&Input,sizeof(INPUT));
 }
 
-void QGlobalFakeKeyPrivate::sendNativeScroll(int direction, int delta, double acceleration)
+void NativeCommandEmitter::sendNativeScroll(int direction, int delta, double acceleration)
 {
-    INPUT    Input={0};
+    INPUT Input={0};
     Input.type = INPUT_MOUSE;
 
     int sign;
@@ -399,13 +359,24 @@ void QGlobalFakeKeyPrivate::sendNativeScroll(int direction, int delta, double ac
         Input.mi.dwFlags = MOUSEEVENTF_WHEEL;
         sign = -1;
     }
-    else {
-        Input.mi.dwFlags = MOUSEEVENTF_HWHEEL;
-        sign = 1;
-    }
+//    else {
+//        Input.mi.dwFlags = MOUSEEVENTF_HWHEEL
+//        sign = 1;
+//    }
 
     Input.mi.mouseData = (delta * acceleration)*WHEEL_DELTA*sign;
 
     ::SendInput(1,&Input,sizeof(INPUT));
+}
+
+void NativeCommandEmitter::sendNativeMouseMotion(int x, int y)
+{
+    INPUT Input={0};
+    Input.type = INPUT_MOUSE;
+    Input.mi.mouseData=0;
+    Input.mi.dx =  x*(65536/GetSystemMetrics(SM_CXSCREEN));
+    Input.mi.dy =  y*(65536/GetSystemMetrics(SM_CYSCREEN));
+    Input.mi.dwFlags = MOUSEEVENTF_ABSOLUTE | MOUSEEVENTF_MOVE;
+    ::SendInput(1,&Input,sizeof(Input));
 }
 

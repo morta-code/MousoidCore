@@ -1,21 +1,25 @@
 #ifndef COMMANDEMITTER_HPP
 #define COMMANDEMITTER_HPP
 
-#include <chrono>
-#include <thread>
 #include <Qt/qkeysequence.h>
 #include <QString>
 #include "mousoid_constants.hpp"
 
 #ifdef Q_WS_X11
 #include "commandemitter_x11.hpp"
+#include <chrono>
+#include <thread>
+#define M_SLEEP(_T) std::this_thread::sleep_for( std::chrono::milliseconds(_T) )
 #endif
 #ifdef Q_WS_WIN
 #include "commandemitter_win.hpp"
+#define M_SLEEP(_T) ::Sleep(_T)
 #endif
 
 namespace CommandEmitter {
-
+#ifdef Q_OS_WIN
+#undef DOUBLE_CLICK
+#endif
 void executeCommand(QByteArray& command){
     NativeCommandEmitter e;
     char* _temp = 0;
@@ -28,7 +32,7 @@ void executeCommand(QByteArray& command){
     case Mousoid::MOUSEBUTTON:
         if(command[2] == Mousoid::CLICK){
             e.sendNativeButton((Qt::MouseButton)(char)command[3], true);
-            std::this_thread::sleep_for( std::chrono::milliseconds(60) );
+            M_SLEEP(60);
             e.sendNativeButton((Qt::MouseButton)(char)command[3], false);
             return;
         }
@@ -41,13 +45,12 @@ void executeCommand(QByteArray& command){
             return;
         }
         if (command[2] == Mousoid::DOUBLE_CLICK) {
-            std::chrono::milliseconds duration(70);
             e.sendNativeButton((Qt::MouseButton)(char)command[3], true);
-            std::this_thread::sleep_for(duration);
+            M_SLEEP(60);
             e.sendNativeButton((Qt::MouseButton)(char)command[3], false);
-            std::this_thread::sleep_for(duration);
+            M_SLEEP(70);
             e.sendNativeButton((Qt::MouseButton)(char)command[3], true);
-            std::this_thread::sleep_for(duration);
+            M_SLEEP(60);
             e.sendNativeButton((Qt::MouseButton)(char)command[3], false);
             return;
         }
@@ -127,5 +130,7 @@ void executeCommand(QByteArray& command){
 }
 
 }
-
+#ifdef Q_OS_WIN
+#define DOUBLE_CLICK  0x0002
+#endif
 #endif // COMMANDEMITTER_HPP
