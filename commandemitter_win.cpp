@@ -2,7 +2,7 @@
 #define WINVER 0x0601
 #define _WIN32_WINNT 0x0601
 #include <Windows.h>
-#include <QDebug>21a
+#include <QDebug>
 #include <Qt/qkeysequence.h>
 
 // Key translation ---------------------------------------------------------------------[ start ] --
@@ -341,7 +341,6 @@ void NativeCommandEmitter::sendNativeKey(Qt::Key key, bool down)
     quint32 keyCode = nativeKeycode(key);
 
     INPUT InputData={0};
-    int iEvents;
 
     InputData.type = INPUT_KEYBOARD;
     InputData.ki.wVk = keyCode;
@@ -351,7 +350,7 @@ void NativeCommandEmitter::sendNativeKey(Qt::Key key, bool down)
     else
         InputData.ki.dwFlags = KEYEVENTF_KEYUP;
 
-    iEvents = SendInput(1, &InputData, sizeof(INPUT));
+    ::SendInput(1, &InputData, sizeof(InputData));
 }
 
 void NativeCommandEmitter::sendNativeButton(Qt::MouseButton button, bool down)
@@ -397,9 +396,9 @@ void NativeCommandEmitter::sendNativeScroll(int direction, int delta, double acc
 void NativeCommandEmitter::sendNativeMouseMotion(int x, int y)
 {
     POINT p;
-    GetCursorPos(&p);
+    ::GetCursorPos(&p);
     p.x -= x;
     p.y -= y;
-    SetCursorPos(p.x,p.y);
+    ::SetCursorPos(p.x,p.y);
 }
 

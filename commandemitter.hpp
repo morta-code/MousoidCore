@@ -24,7 +24,6 @@ namespace CommandEmitter {
 #endif
 void executeCommand(QByteArray& command){
     NativeCommandEmitter e;
-    char* _temp = 0;
 
     switch (command[1]) {
     case Mousoid::MOUSEMOVE:
@@ -113,7 +112,7 @@ void executeCommand(QByteArray& command){
 #ifdef Q_OS_LINUX
     case Mousoid::SYSTEM:
     {
-        _temp = new char[command[2]+3];
+        char* _temp = new char[command[2]+3];
         for(register uchar i = 0; i < command[2]; ++i){
             _temp[i] = command[3+i];
         }
